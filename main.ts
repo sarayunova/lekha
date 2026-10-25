@@ -23,8 +23,12 @@ import registerIpcMainMessageListeners from './main/registerIpcMainMessageListen
 import registerProcessListeners from './main/registerProcessListeners';
 
 export class Main {
-  title = 'Frappe Books';
+  title = 'Lekha';
   icon: string;
+
+  // No Lekha release feed exists yet; enable once `publish` is configured
+  // in electron-builder-config.mjs.
+  updatesEnabled = false;
 
   winURL = '';
   checkedForUpdate = false;

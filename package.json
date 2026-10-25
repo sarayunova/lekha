@@ -1,10 +1,9 @@
 {
-  "name": "frappe-books",
+  "name": "lekha",
   "version": "0.37.0",
-  "description": "Simple book-keeping app for everyone",
+  "description": "Free accounting software for Indian small and medium businesses",
   "author": {
-    "name": "Frappe Technologies Pvt. Ltd.",
-    "email": "hello@frappe.io"
+    "name": "Lekha"
   },
   "scripts": {
     "dev": "node build/scripts/dev.mjs",
@@ -90,10 +89,6 @@
     "semi": true,
     "singleQuote": true,
     "trailingComma": "es5"
-  },
-  "homepage": "https://frappe.io/books",
-  "repository": {
-    "url": "https://github.com/frappe/books"
   },
   "license": "AGPL-3.0-only"
 }

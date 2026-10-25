@@ -15,8 +15,8 @@ const buildDirPath = path.join(root, 'dist_electron', 'build');
 const packageDirPath = path.join(root, 'dist_electron', 'bundled');
 
 const frappeBooksConfig = {
-  productName: 'Frappe Books',
-  appId: 'io.frappe.books',
+  productName: 'Lekha',
+  appId: 'com.liviverse.lekha',
   artifactName: '${productName}-v${version}-${os}-${arch}.${ext}',
   asarUnpack: '**/*.node',
   extraResources: [
@@ -43,14 +43,12 @@ const frappeBooksConfig = {
     darkModeSupport: false,
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
-    publish: ['github'],
   },
   win: {
-    publisherName: 'Frappe Technologies Pvt. Ltd.',
+    publisherName: 'Lekha',
     artifactName: '${productName}-v${version}-windows-${arch}.${ext}',
     signDlls: true,
     icon: 'build/icon.ico',
-    publish: ['github'],
     target: [
       {
         target: 'nsis',
@@ -68,13 +66,11 @@ const frappeBooksConfig = {
     allowToChangeInstallationDirectory: true,
     installerIcon: 'build/installericon.ico',
     uninstallerIcon: 'build/uninstallericon.ico',
-    publish: ['github'],
   },
   linux: {
     icon: 'build/icons',
     artifactName: '${productName}-v${version}-linux-${arch}.${ext}',
     category: 'Finance',
-    publish: ['github'],
     target: [
       {
         target: 'deb',

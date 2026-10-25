@@ -55,7 +55,7 @@ export default function registerIpcMainActionListeners(main: Main) {
         root = 'dbs';
       }
 
-      const dbsPath = path.join(root, 'Frappe Books');
+      const dbsPath = path.join(root, 'Lekha');
       const backupPath = path.join(dbsPath, 'backups');
       await fs.ensureDir(backupPath);
 
@@ -152,7 +152,7 @@ export default function registerIpcMainActionListeners(main: Main) {
   });
 
   ipcMain.handle(IPC_ACTIONS.CHECK_FOR_UPDATES, async () => {
-    if (main.isDevelopment || main.checkedForUpdate) {
+    if (main.isDevelopment || main.checkedForUpdate || !main.updatesEnabled) {
       return;
     }
 
