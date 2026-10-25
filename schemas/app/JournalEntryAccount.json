@@ -13,6 +13,13 @@
       "groupBy": "rootType"
     },
     {
+      "fieldname": "party",
+      "label": "Party",
+      "placeholder": "Party",
+      "fieldtype": "Link",
+      "target": "Party"
+    },
+    {
       "fieldname": "debit",
       "label": "Debit",
       "fieldtype": "Currency"
@@ -23,6 +30,6 @@
       "fieldtype": "Currency"
     }
   ],
-  "tableFields": ["account", "debit", "credit"],
+  "tableFields": ["account", "party", "debit", "credit"],
   "keywordFields": ["account"]
 }

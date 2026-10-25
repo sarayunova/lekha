@@ -28,11 +28,12 @@ export class JournalEntry extends Transactional {
       const debit = row.debit as Money;
       const credit = row.credit as Money;
       const account = row.account as string;
+      const party = row.party as string | undefined;
 
       if (!debit.isZero()) {
-        await posting.debit(account, debit);
+        await posting.debit(account, debit, party);
       } else if (!credit.isZero()) {
-        await posting.credit(account, credit);
+        await posting.credit(account, credit, party);
       }
     }
 

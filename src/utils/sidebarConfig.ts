@@ -330,6 +330,11 @@ function getCompleteSidebar(): SidebarConfig {
           route: '/import-wizard',
         },
         {
+          label: t`Import from Tally`,
+          name: 'tally-import',
+          route: '/tally-import',
+        },
+        {
           label: t`Print Templates`,
           name: 'print-template',
           route: `/list/PrintTemplate/${t`Print Templates`}`,
