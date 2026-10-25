@@ -35,7 +35,8 @@ downloaded. The portable build never updates itself.
    ```sh
    cp Lekha-Setup-v$v-windows-x64.exe Lekha-Setup-windows-x64.exe
    cp Lekha-Portable-v$v-windows-x64.exe Lekha-Portable-windows-x64.exe
-   gh release upload v$v --repo sarayunova/lekha      Lekha-Setup-windows-x64.exe Lekha-Portable-windows-x64.exe
+   gh release upload v$v --repo sarayunova/lekha \
+     Lekha-Setup-windows-x64.exe Lekha-Portable-windows-x64.exe
    ```
 
 Do not mark releases as pre-release or draft; the updater and the download
