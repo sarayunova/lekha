@@ -3,7 +3,7 @@
  * newer files are available (if internet available)
  * then those will replace the current file.
  *
- * Language files are fetched from the frappe/books repo
+ * Language files are fetched from the Lekha repo
  * the language files before storage have a ISO timestamp
  * prepended to the file.
  *
@@ -19,6 +19,8 @@ import { LanguageMap } from 'utils/types';
 import fetch from 'node-fetch';
 
 const VALENTINES_DAY = 1644796800000;
+const TRANSLATIONS_REPO = 'sarayunova/lekha';
+const TRANSLATIONS_BRANCH = 'main';
 
 export async function getLanguageMap(code: string): Promise<LanguageMap> {
   const contents = await getContents(code);
@@ -93,7 +95,7 @@ async function fetchAndStoreFile(code: string, date?: Date) {
 }
 
 async function fetchContentsFromApi(code: string) {
-  const url = `https://api.github.com/repos/frappe/books/contents/translations/${code}.csv`;
+  const url = `https://api.github.com/repos/${TRANSLATIONS_REPO}/contents/translations/${code}.csv?ref=${TRANSLATIONS_BRANCH}`;
   const res = await errorHandledFetch(url);
   if (res === null || res.status !== 200) {
     return null;
@@ -104,7 +106,7 @@ async function fetchContentsFromApi(code: string) {
 }
 
 async function fetchContentsFromRaw(code: string) {
-  const url = `https://raw.githubusercontent.com/frappe/books/master/translations/${code}.csv`;
+  const url = `https://raw.githubusercontent.com/${TRANSLATIONS_REPO}/${TRANSLATIONS_BRANCH}/translations/${code}.csv`;
   const res = await errorHandledFetch(url);
   if (res === null || res.status !== 200) {
     return null;
@@ -131,7 +133,7 @@ async function shouldUpdateFile(code: string, contents: string) {
 }
 
 async function getLastUpdated(code: string): Promise<Date> {
-  const url = `https://api.github.com/repos/frappe/books/commits?path=translations%2F${code}.csv&page=1&per_page=1`;
+  const url = `https://api.github.com/repos/${TRANSLATIONS_REPO}/commits?sha=${TRANSLATIONS_BRANCH}&path=translations%2F${code}.csv&page=1&per_page=1`;
   const res = await errorHandledFetch(url);
   if (res === null || res.status !== 200) {
     return new Date(VALENTINES_DAY);
