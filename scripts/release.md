@@ -28,5 +28,15 @@ downloaded. The portable build never updates itself.
      latest.yml
    ```
 
-Do not mark releases as pre-release or draft; the updater only reads the
-latest full release.
+4. Upload copies under version-free names. The download page on
+   vyapartools.in links to `releases/latest/download/<name>`, so every release
+   needs them:
+
+   ```sh
+   cp Lekha-Setup-v$v-windows-x64.exe Lekha-Setup-windows-x64.exe
+   cp Lekha-Portable-v$v-windows-x64.exe Lekha-Portable-windows-x64.exe
+   gh release upload v$v --repo sarayunova/lekha      Lekha-Setup-windows-x64.exe Lekha-Portable-windows-x64.exe
+   ```
+
+Do not mark releases as pre-release or draft; the updater and the download
+page only read the latest full release.
