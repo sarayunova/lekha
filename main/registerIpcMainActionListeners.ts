@@ -12,7 +12,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import { SelectFileOptions, SelectFileReturn } from 'utils/types';
 import databaseManager from '../backend/database/manager';
-import { emitMainProcessError } from '../backend/helpers';
 import { Main } from '../main';
 import { DatabaseMethod } from '../utils/db/types';
 import { IPC_ACTIONS } from '../utils/messages';
@@ -23,7 +22,6 @@ import { printHtmlDocument } from './printHtmlDocument';
 import {
   getConfigFilesWithModified,
   getErrorHandledReponse,
-  isNetworkError,
   setAndGetCleanedConfigFiles,
 } from './helpers';
 import { saveHtmlAsPdf } from './saveHtmlAsPdf';
@@ -158,12 +156,8 @@ export default function registerIpcMainActionListeners(main: Main) {
 
     try {
       await autoUpdater.checkForUpdates();
-    } catch (error) {
-      if (isNetworkError(error as Error)) {
-        return;
-      }
-
-      emitMainProcessError(error);
+    } catch {
+      // Logged by the autoUpdater 'error' listener.
     }
     main.checkedForUpdate = true;
   });

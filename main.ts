@@ -24,9 +24,9 @@ export class Main {
   title = 'Lekha';
   icon: string;
 
-  // No Lekha release feed exists yet; enable once `publish` is configured
-  // in electron-builder-config.mjs.
-  updatesEnabled = false;
+  // The portable build can't install updates (electron-updater would
+  // install a second copy with the NSIS setup instead).
+  updatesEnabled = !process.env.PORTABLE_EXECUTABLE_DIR;
 
   winURL = '';
   checkedForUpdate = false;

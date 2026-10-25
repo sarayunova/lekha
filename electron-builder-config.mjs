@@ -19,6 +19,16 @@ const frappeBooksConfig = {
   ],
   files: '**',
   extends: null,
+  // Writes app-update.yml and latest.yml; release assets are uploaded with
+  // `gh release upload` (see scripts/release.md).
+  publish: [
+    {
+      provider: 'github',
+      owner: 'sarayunova',
+      repo: 'lekha',
+      releaseType: 'release',
+    },
+  ],
   directories: {
     output: packageDirPath,
     app: buildDirPath,
@@ -39,9 +49,6 @@ const frappeBooksConfig = {
   },
   win: {
     artifactName: '${productName}-v${version}-windows-${arch}.${ext}',
-    signtoolOptions: {
-      publisherName: 'Lekha',
-    },
     signExts: ['.dll'],
     icon: 'build/icon.ico',
     target: [

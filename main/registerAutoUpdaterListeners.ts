@@ -1,12 +1,10 @@
 import { app, dialog } from 'electron';
 import { autoUpdater, UpdateInfo } from 'electron-updater';
-import { emitMainProcessError } from '../backend/helpers';
 import { Main } from '../main';
-import { isNetworkError } from './helpers';
 
 export default function registerAutoUpdaterListeners(main: Main) {
   autoUpdater.autoDownload = false;
-  autoUpdater.allowPrerelease = true;
+  autoUpdater.allowPrerelease = false;
   autoUpdater.autoInstallOnAppQuit = true;
 
   autoUpdater.on('error', (error) => {
@@ -14,11 +12,9 @@ export default function registerAutoUpdaterListeners(main: Main) {
       main.checkedForUpdate = true;
     }
 
-    if (isNetworkError(error)) {
-      return;
-    }
-
-    emitMainProcessError(error);
+    // Update checks run silently, failing to reach GitHub or a release
+    // without update metadata shouldn't interrupt the user.
+    console.error('auto update failed:', error);
   });
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
