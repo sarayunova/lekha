@@ -16,6 +16,14 @@ const buildDirPath = path.join(root, 'dist_electron', 'build');
 const packageDirPath = path.join(root, 'dist_electron', 'bundled');
 const mainFileName = 'main.js';
 const commonConfig = getMainProcessCommonConfig(root);
+const textAssetExtensions = new Set([
+  '.html',
+  '.js',
+  '.css',
+  '.map',
+  '.json',
+  '.svg',
+]);
 
 const rawArgs = yargs(hideBin(process.argv))
   .option('nosign', {
@@ -175,6 +183,11 @@ function removeBaseLeadingSlash(dir, base) {
     const filePath = path.join(dir, file);
     if (fs.lstatSync(filePath).isDirectory()) {
       removeBaseLeadingSlash(filePath, base);
+      continue;
+    }
+
+    // Rewriting binary assets (fonts, images) as UTF-8 corrupts them.
+    if (!textAssetExtensions.has(path.extname(file).toLowerCase())) {
       continue;
     }
 
