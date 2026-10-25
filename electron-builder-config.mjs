@@ -47,20 +47,24 @@ const frappeBooksConfig = {
     target: [
       {
         target: 'nsis',
-        arch: ['x64', 'ia32'],
+        arch: ['x64'],
       },
       {
         target: 'portable',
-        arch: ['x64', 'ia32'],
+        arch: ['x64'],
       },
     ],
   },
   nsis: {
+    artifactName: '${productName}-Setup-v${version}-windows-${arch}.${ext}',
     oneClick: false,
     perMachine: false,
     allowToChangeInstallationDirectory: true,
-    installerIcon: 'build/installericon.ico',
-    uninstallerIcon: 'build/uninstallericon.ico',
+    installerIcon: 'build/installerIcon.ico',
+    uninstallerIcon: 'build/uninstallerIcon.ico',
+  },
+  portable: {
+    artifactName: '${productName}-Portable-v${version}-windows-${arch}.${ext}',
   },
   linux: {
     icon: 'build/icons',
