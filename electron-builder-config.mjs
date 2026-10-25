@@ -2,12 +2,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-/**
- * electron-builder doesn't look for the APPLE_TEAM_ID environment variable for some reason.
- * This workaround allows an environment variable to be added to the electron-builder.yml config
- * collection. See: https://github.com/electron-userland/electron-builder/issues/7812
- */
-
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 // const root = path.join(dirname, '..', '..');
 const root = dirname; // redundant, but is meant to keep with the previous line
@@ -20,7 +14,6 @@ const frappeBooksConfig = {
   artifactName: '${productName}-v${version}-${os}-${arch}.${ext}',
   asarUnpack: '**/*.node',
   extraResources: [
-    { from: 'log_creds.txt', to: '../creds/log_creds.txt' },
     { from: 'translations', to: '../translations' },
     { from: 'templates', to: '../templates' },
   ],
@@ -35,9 +28,9 @@ const frappeBooksConfig = {
     artifactName: '${productName}-v${version}-mac-${arch}.${ext}',
     category: 'public.app-category.finance',
     icon: 'build/icon.icns',
-    notarize: {
-      teamId: process.env.APPLE_TEAM_ID || '',
-    },
+    // electron-builder reads APPLE_TEAM_ID and the Apple credentials from
+    // the environment; only notarize when they are provided.
+    notarize: Boolean(process.env.APPLE_TEAM_ID),
     hardenedRuntime: true,
     gatekeeperAssess: false,
     darkModeSupport: false,
@@ -45,9 +38,11 @@ const frappeBooksConfig = {
     entitlementsInherit: 'build/entitlements.mac.plist',
   },
   win: {
-    publisherName: 'Lekha',
     artifactName: '${productName}-v${version}-windows-${arch}.${ext}',
-    signDlls: true,
+    signtoolOptions: {
+      publisherName: 'Lekha',
+    },
+    signExts: ['.dll'],
     icon: 'build/icon.ico',
     target: [
       {
