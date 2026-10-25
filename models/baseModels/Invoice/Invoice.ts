@@ -72,6 +72,7 @@ export type ReturnedItemData =
     };
 
 export type InvoiceTaxItem = {
+  item: InvoiceItem;
   details: TaxDetail;
   exchangeRate?: number;
   fullAmount: Money;
@@ -425,39 +426,48 @@ export abstract class Invoice extends Transactional {
       }
 
       const tax = await this.getTax(item.tax);
+      const amount = this.getItemTaxableAmount(item);
       for (const details of (tax.details ?? []) as TaxDetail[]) {
-        let amount = item.amount!;
+        const taxItem: InvoiceTaxItem = {
+          item,
+          details,
+          exchangeRate: this.exchangeRate ?? 1,
+          fullAmount: amount,
+          taxAmount: amount.mul(details.rate / 100),
+        };
 
-        if (this.isReturn && amount.isPositive()) {
-          amount = amount.neg();
-        }
-
-        if (!this.discountAfterTax) {
-          let itemDiscountAmount = this.getDiscountAmount(item);
-
-          if (this.isReturn && itemDiscountAmount.isNegative()) {
-            itemDiscountAmount = itemDiscountAmount.abs();
-          }
-
-          if (this.isReturn) {
-            amount = amount.add(itemDiscountAmount);
-          } else {
-            amount = amount.sub(itemDiscountAmount);
-          }
-
-          const taxItem: InvoiceTaxItem = {
-            details,
-            exchangeRate: this.exchangeRate ?? 1,
-            fullAmount: amount,
-            taxAmount: amount.mul(details.rate / 100),
-          };
-
-          taxItems.push(taxItem);
-        }
+        taxItems.push(taxItem);
       }
     }
 
     return taxItems;
+  }
+
+  /**
+   * Amount of an item that tax is levied on: negative for returns, and net
+   * of the item's discount unless discounts are applied after tax.
+   */
+  getItemTaxableAmount(item: InvoiceItem): Money {
+    let amount = item.amount ?? this.fyo.pesa(0);
+
+    if (this.isReturn && amount.isPositive()) {
+      amount = amount.neg();
+    }
+
+    if (this.discountAfterTax) {
+      return amount;
+    }
+
+    let itemDiscountAmount = this.getDiscountAmount(item);
+    if (this.isReturn && itemDiscountAmount.isNegative()) {
+      itemDiscountAmount = itemDiscountAmount.abs();
+    }
+
+    if (this.isReturn) {
+      return amount.add(itemDiscountAmount);
+    }
+
+    return amount.sub(itemDiscountAmount);
   }
 
   async getTaxSummary() {
