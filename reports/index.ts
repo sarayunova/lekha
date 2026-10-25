@@ -2,6 +2,7 @@ import { BalanceSheet } from './BalanceSheet/BalanceSheet';
 import { GeneralLedger } from './GeneralLedger/GeneralLedger';
 import { GSTR1 } from './GoodsAndServiceTax/GSTR1';
 import { GSTR2 } from './GoodsAndServiceTax/GSTR2';
+import { GSTR3B } from './GoodsAndServiceTax/GSTR3B';
 import { ProfitAndLoss } from './ProfitAndLoss/ProfitAndLoss';
 import { TrialBalance } from './TrialBalance/TrialBalance';
 import { StockBalance } from './inventory/StockBalance';
@@ -14,6 +15,7 @@ export const reports = {
   TrialBalance,
   GSTR1,
   GSTR2,
+  GSTR3B,
   StockLedger,
   StockBalance,
 } as const;

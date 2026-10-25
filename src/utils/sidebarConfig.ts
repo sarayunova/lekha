@@ -49,6 +49,11 @@ function getRegionalSidebar(): SidebarRoot[] {
           name: 'gstr2',
           route: '/report/GSTR2',
         },
+        {
+          label: t`GSTR-3B`,
+          name: 'gstr3b',
+          route: '/report/GSTR3B',
+        },
       ],
     },
   ];

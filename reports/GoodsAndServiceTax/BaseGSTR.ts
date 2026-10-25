@@ -2,13 +2,13 @@ import { t } from 'fyo';
 import { Action } from 'fyo/model/types';
 import { DateTime } from 'luxon';
 import { Invoice } from 'models/baseModels/Invoice/Invoice';
-import { Party } from 'models/regionalModels/in/Party';
 import { ModelNameEnum } from 'models/types';
 import { codeStateMap } from 'regional/in';
 import { Report } from 'reports/Report';
 import { ColumnField, ReportData, ReportRow } from 'reports/types';
 import { Field, OptionField } from 'schemas/types';
 import { isNumeric } from 'src/utils';
+import { getCompanyState, getDateRangeFilter, getGSTRRow } from './gstBreakup';
 import getGSTRExportActions from './gstExporter';
 import { GSTRRow, GSTRType, TransferType, TransferTypeEnum } from './types';
 
@@ -115,15 +115,7 @@ export abstract class BaseGSTR extends Report {
   }
 
   async getEntries() {
-    const date: string[] = [];
-    if (this.toDate) {
-      date.push('<=', this.toDate);
-    }
-
-    if (this.fromDate) {
-      date.push('>=', this.fromDate);
-    }
-
+    const date = getDateRangeFilter(this.fromDate, this.toDate);
     return (await this.fyo.db.getAllRaw(this.schemaName, {
       filters: { date, submitted: true, cancelled: false },
     })) as { name: string }[];
@@ -131,89 +123,22 @@ export abstract class BaseGSTR extends Report {
 
   async getGstrRows(): Promise<GSTRRow[]> {
     const entries = await this.getEntries();
+    const companyState = await getCompanyState(this.fyo);
     const gstrRows: GSTRRow[] = [];
     for (const entry of entries) {
-      const gstrRow = await this.getGstrRow(entry.name);
+      const gstrRow = await this.getGstrRow(entry.name, companyState);
       gstrRows.push(gstrRow);
     }
     return gstrRows;
   }
 
-  async getGstrRow(entryName: string): Promise<GSTRRow> {
+  async getGstrRow(entryName: string, companyState: string): Promise<GSTRRow> {
     const entry = (await this.fyo.doc.getDoc(
       this.schemaName,
       entryName
     )) as Invoice;
-    const gstin = (await this.fyo.getValue(
-      ModelNameEnum.AccountingSettings,
-      'gstin'
-    )) as string | null;
 
-    const party = (await this.fyo.doc.getDoc('Party', entry.party)) as Party;
-
-    let place = '';
-    if (party.address) {
-      const pos = (await this.fyo.getValue(
-        ModelNameEnum.Address,
-        party.address as string,
-        'pos'
-      )) as string | undefined;
-
-      place = pos ?? '';
-    } else if (party.gstin) {
-      const code = party.gstin.slice(0, 2);
-      place = codeStateMap[code] ?? '';
-    }
-
-    let inState = false;
-    if (gstin) {
-      inState = codeStateMap[gstin.slice(0, 2)] === place;
-    }
-
-    const gstrRow: GSTRRow = {
-      gstin: party.gstin ?? '',
-      partyName: entry.party!,
-      invNo: entry.name!,
-      invDate: entry.date!,
-      rate: 0,
-      reverseCharge: !party.gstin ? 'Y' : 'N',
-      inState,
-      place,
-      invAmt: entry.grandTotal?.float ?? 0,
-      taxVal: entry.netTotal?.float ?? 0,
-    };
-
-    for (const tax of entry.taxes ?? []) {
-      gstrRow.rate += tax.rate ?? 0;
-    }
-
-    this.setTaxValuesOnGSTRRow(entry, gstrRow);
-    return gstrRow;
-  }
-
-  setTaxValuesOnGSTRRow(entry: Invoice, gstrRow: GSTRRow) {
-    for (const tax of entry.taxes ?? []) {
-      const rate = tax.rate ?? 0;
-      gstrRow.rate += rate;
-      const taxAmt = entry.netTotal!.percent(rate).float;
-
-      switch (tax.account) {
-        case 'IGST': {
-          gstrRow.igstAmt = taxAmt;
-          gstrRow.inState = false;
-        }
-        case 'CGST':
-          gstrRow.cgstAmt = taxAmt;
-        case 'SGST':
-          gstrRow.sgstAmt = taxAmt;
-        case 'Nil Rated':
-          gstrRow.nilRated = true;
-        case 'Exempt':
-          gstrRow.exempt = true;
-        case 'Non GST':
-          gstrRow.nonGST = true;
-      }
-    }
+    return await getGSTRRow(entry, companyState);
   }
 
   setDefaultFilters() {
