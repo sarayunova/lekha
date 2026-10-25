@@ -39,5 +39,9 @@ downloaded. The portable build never updates itself.
      Lekha-Setup-windows-x64.exe Lekha-Portable-windows-x64.exe
    ```
 
+5. Update `lekha/index.html` in `sarayunova/LiVi-Software-Company-Landingpage`
+   (liviverse.com): its links, sizes and SHA-256 checksums name the version, and
+   so does the badge on the home page card. Open a pull request there.
+
 Do not mark releases as pre-release or draft; the updater and the download
 page only read the latest full release.
