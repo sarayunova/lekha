@@ -10,11 +10,9 @@ import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
   protocol,
-  ProtocolRequest,
-  ProtocolResponse,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import registerAppLifecycleListeners from './main/registerAppLifecycleListeners';
 import registerAutoUpdaterListeners from './main/registerAutoUpdaterListeners';
@@ -43,7 +41,17 @@ export class Main {
       : path.join(__dirname, 'icons', '512x512.png');
 
     protocol.registerSchemesAsPrivileged([
-      { scheme: 'app', privileges: { secure: true, standard: true } },
+      {
+        scheme: 'app',
+        privileges: {
+          secure: true,
+          standard: true,
+          // protocol.handle serves through the fetch path, where module
+          // scripts and stylesheets are CORS requests.
+          supportFetchAPI: true,
+          corsEnabled: true,
+        },
+      },
     ]);
 
     if (this.isDevelopment) {
@@ -59,7 +67,7 @@ export class Main {
 
     this.registerListeners();
     if (this.isMac && this.isDevelopment) {
-      app.dock.setIcon(this.icon);
+      app.dock?.setIcon(this.icon);
     }
   }
 
@@ -151,7 +159,7 @@ export class Main {
   }
 
   registerAppProtocol() {
-    protocol.registerBufferProtocol('app', bufferProtocolCallback);
+    protocol.handle('app', appProtocolHandler);
 
     // Use the registered protocol url to load the files.
     this.winURL = 'app://./index.html';
@@ -175,14 +183,11 @@ export class Main {
 }
 
 /**
- * Callback used to register the custom app protocol,
+ * Handler used to register the custom app protocol,
  * during prod, files are read and served by using this
  * protocol.
  */
-function bufferProtocolCallback(
-  request: ProtocolRequest,
-  callback: (response: ProtocolResponse) => void
-) {
+async function appProtocolHandler(request: Request): Promise<Response> {
   const { pathname, host } = new URL(request.url);
   const filePath = path.join(
     __dirname,
@@ -191,19 +196,24 @@ function bufferProtocolCallback(
     decodeURI(pathname)
   );
 
-  fs.readFile(filePath, (_, data) => {
-    const extension = path.extname(filePath).toLowerCase();
-    const mimeType =
-      {
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.html': 'text/html',
-        '.svg': 'image/svg+xml',
-        '.json': 'application/json',
-      }[extension] ?? '';
+  let data: Buffer;
+  try {
+    data = await fs.readFile(filePath);
+  } catch {
+    return new Response(null, { status: 404 });
+  }
 
-    callback({ mimeType, data });
-  });
+  const extension = path.extname(filePath).toLowerCase();
+  const mimeType =
+    {
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.html': 'text/html',
+      '.svg': 'image/svg+xml',
+      '.json': 'application/json',
+    }[extension] ?? '';
+
+  return new Response(data, { headers: { 'Content-Type': mimeType } });
 }
 
 export default new Main();
