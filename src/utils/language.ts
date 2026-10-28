@@ -5,10 +5,18 @@ import { systemLanguageRef } from './refs';
 
 // Language: Language Code in books/translations
 export const languageCodeMap: Record<string, string> = {
+  Assamese: 'as',
+  Bengali: 'bn',
   English: 'en',
   Gujarati: 'gu',
   Hindi: 'hi',
+  Kannada: 'kn',
+  Malayalam: 'ml',
+  Marathi: 'mr',
   Nepali: 'np',
+  Odia: 'or',
+  Tamil: 'ta',
+  Telugu: 'te',
 };
 
 export async function setLanguageMap(
