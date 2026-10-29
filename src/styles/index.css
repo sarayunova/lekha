@@ -7,7 +7,7 @@
 }
 
 * {
-  outline-color: theme('colors.pink.400');
+  outline-color: theme('colors.blue.400');
   font-variation-settings: 'slnt' 0deg;
 }
 .italic {
@@ -22,6 +22,21 @@
 
 html {
   color: theme('colors.black');
+  background-color: #ffffff;
+}
+
+::selection {
+  background-color: theme('colors.blue.200');
+}
+
+html.dark ::selection {
+  background-color: theme('colors.blue.800');
+}
+
+button,
+[role='button'] {
+  transition: background-color 120ms ease, filter 120ms ease,
+    box-shadow 120ms ease, transform 120ms ease;
 }
 
 html.dark {
@@ -70,7 +85,7 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 :root {
-  --w-form: 600px;
+  --w-form: 640px;
   --w-app: 1200px;
   --w-sidebar: 14rem;
   --w-desk: calc(100vw - var(--w-sidebar));
@@ -171,11 +186,15 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: theme('colors.gray.100');
+  background: theme('colors.gray.300');
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.gray.200');
+  background: theme('colors.gray.400');
+  background-clip: padding-box;
 }
 
 .custom-scroll::-webkit-scrollbar-corner {
@@ -252,8 +271,20 @@ input[type='number']::-webkit-inner-spin-button {
   border-right: solid 1px theme('colors.gray.850');
 }
 
+.input-focus {
+  transition: box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.input-focus:focus-within {
+  box-shadow: theme('boxShadow.ring');
+}
+
+html.dark .input-focus:focus-within {
+  box-shadow: 0 0 0 3px rgba(91, 124, 247, 0.28);
+}
+
 .pill {
-  @apply py-0.5 px-1.5 rounded-md  text-xs;
+  @apply py-0.5 px-2.5 rounded-full text-xs;
   width: fit-content;
   height: fit-content;
 }

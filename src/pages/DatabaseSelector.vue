@@ -1,6 +1,15 @@
 <template>
   <div
-    class="flex-1 flex justify-center items-center bg-gray-25 dark:bg-gray-900"
+    class="
+      flex-1 flex
+      justify-center
+      items-center
+      bg-gradient-to-br
+      from-blue-50
+      via-white
+      to-pink-50
+      dark:from-gray-900 dark:via-gray-890 dark:to-gray-900
+    "
     :class="{
       'pointer-events-none': loadingDatabase,
       'window-drag': platform !== 'Windows',
@@ -10,7 +19,7 @@
       class="
         w-full w-form
         shadow-lg
-        rounded-lg
+        rounded-xl
         border
         dark:border-gray-800
         relative
@@ -20,15 +29,35 @@
       style="height: 700px"
     >
       <!-- Welcome to Lekha -->
-      <div class="px-4 py-4">
-        <h1 class="text-2xl font-semibold select-none dark:text-gray-25">
-          {{ t`Welcome to Lekha` }}
-        </h1>
-        <p class="text-gray-600 dark:text-gray-400 text-base select-none">
-          {{
-            t`Create a new company or select an existing one from your computer`
-          }}
-        </p>
+      <div
+        class="
+          px-6
+          py-6
+          flex
+          items-center
+          gap-4
+          rounded-t-xl
+          bg-gradient-to-r
+          from-blue-50
+          to-white
+          dark:from-gray-850 dark:to-gray-875
+        "
+      >
+        <img
+          src="../assets/img/lekha-icon.png"
+          alt=""
+          class="w-12 h-12 rounded-xl shadow-md flex-shrink-0"
+        />
+        <div>
+          <h1 class="text-3xl font-semibold select-none dark:text-gray-25">
+            {{ t`Welcome to Lekha` }}
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400 text-base select-none">
+            {{
+              t`Create a new company or select an existing one from your computer`
+            }}
+          </p>
+        </div>
       </div>
 
       <hr class="dark:border-gray-800" />
@@ -36,7 +65,17 @@
       <!-- New File (Blue Icon) -->
       <div
         data-testid="create-new-file"
-        class="px-4 h-row-largest flex flex-row items-center gap-4 p-2"
+        class="
+          mx-3
+          my-1
+          px-3
+          rounded-lg
+          h-row-largest
+          flex flex-row
+          items-center
+          gap-4
+          p-2
+        "
         :class="
           creatingDemo
             ? ''
@@ -44,7 +83,17 @@
         "
         @click="newDatabase"
       >
-        <div class="w-8 h-8 rounded-full bg-blue-500 relative flex-center">
+        <div
+          class="
+            w-10
+            h-10
+            rounded-xl
+            bg-blue-600
+            shadow-button
+            relative
+            flex-center
+          "
+        >
           <feather-icon
             name="plus"
             class="text-white dark:text-gray-900 w-5 h-5"
@@ -59,11 +108,32 @@
             {{ t`Create a new company and store it on your computer` }}
           </p>
         </div>
+        <feather-icon
+          name="chevron-right"
+          class="
+            ms-auto
+            w-4
+            h-4
+            text-gray-400
+            dark:text-gray-500
+            rtl-rotate-180
+          "
+        />
       </div>
 
       <!-- Existing File (Green Icon) -->
       <div
-        class="px-4 h-row-largest flex flex-row items-center gap-4 p-2"
+        class="
+          mx-3
+          my-1
+          px-3
+          rounded-lg
+          h-row-largest
+          flex flex-row
+          items-center
+          gap-4
+          p-2
+        "
         :class="
           creatingDemo
             ? ''
@@ -73,11 +143,11 @@
       >
         <div
           class="
-            w-8
-            h-8
-            rounded-full
-            bg-green-500
-            dark:bg-green-600
+            w-10
+            h-10
+            rounded-xl
+            bg-green-600
+            shadow-button
             relative
             flex-center
           "
@@ -95,12 +165,33 @@
             {{ t`Load an existing company from your computer` }}
           </p>
         </div>
+        <feather-icon
+          name="chevron-right"
+          class="
+            ms-auto
+            w-4
+            h-4
+            text-gray-400
+            dark:text-gray-500
+            rtl-rotate-180
+          "
+        />
       </div>
 
       <!-- Create Demo (Pink Icon) -->
       <div
         v-if="!files?.length"
-        class="px-4 h-row-largest flex flex-row items-center gap-4 p-2"
+        class="
+          mx-3
+          my-1
+          px-3
+          rounded-lg
+          h-row-largest
+          flex flex-row
+          items-center
+          gap-4
+          p-2
+        "
         :class="
           creatingDemo
             ? ''
@@ -110,11 +201,11 @@
       >
         <div
           class="
-            w-8
-            h-8
-            rounded-full
-            bg-pink-500
-            dark:bg-pink-600
+            w-10
+            h-10
+            rounded-xl
+            bg-pink-600
+            shadow-button
             relative
             flex-center
           "
@@ -129,6 +220,17 @@
             {{ t`Create a demo company to try out Lekha` }}
           </p>
         </div>
+        <feather-icon
+          name="chevron-right"
+          class="
+            ms-auto
+            w-4
+            h-4
+            text-gray-400
+            dark:text-gray-500
+            rtl-rotate-180
+          "
+        />
       </div>
       <hr class="dark:border-gray-800" />
 

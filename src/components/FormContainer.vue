@@ -2,7 +2,7 @@
   <div
     class="
       flex
-      bg-gray-25
+      bg-gray-50
       dark:bg-gray-875
       overflow-x-auto
       custom-scroll custom-scroll-thumb1
