@@ -664,7 +664,7 @@ export class TallyImporter {
       this.existingReferences = new Set(
         entries
           .filter((e) => e.referenceNumber)
-          .map((e) => `${e.referenceNumber}|${toISODate(e.date)}`)
+          .map((e) => `${e.referenceNumber ?? ''}|${toISODate(e.date)}`)
       );
     }
 

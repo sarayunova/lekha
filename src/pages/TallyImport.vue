@@ -185,7 +185,7 @@ export default defineComponent({
       } catch (error) {
         showToast({
           type: 'error',
-          message: this.t`Could not read ${name}: ${
+          message: this.t`Could not read ${name ?? ''}: ${
             error instanceof Error ? error.message : String(error)
           }`,
         });
