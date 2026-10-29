@@ -28,7 +28,8 @@ const appSourcePath = path.join(root, 'dist_electron', 'build', 'main.js');
   test('load app', async (t) => {
     t.equal(await getTitle(), 'Lekha', 'title matches');
 
-    await new Promise((r) => window.once('load', () => r()));
+    // resolves immediately if the page has already loaded
+    await window.waitForLoadState('load');
     t.ok(true, 'window has loaded');
   });
 
