@@ -24,48 +24,84 @@
     </PageHeader>
 
     <div
-      class="no-scrollbar overflow-auto dark:bg-gray-875"
+      class="no-scrollbar overflow-auto bg-gray-50 dark:bg-gray-875"
       style="height: calc(100vh - var(--h-row-largest) - 1px)"
     >
-      <div style="min-width: var(--w-desk-fixed)" class="overflow-auto">
+      <div
+        style="min-width: var(--w-desk-fixed)"
+        class="overflow-auto p-4 flex flex-col gap-4"
+      >
         <Cashflow
-          class="p-4"
+          class="
+            p-4
+            bg-white
+            dark:bg-gray-890
+            border
+            dark:border-gray-800
+            rounded-xl
+          "
           :common-period="period"
           :dark-mode="darkMode"
           @period-change="handlePeriodChange"
         />
-        <hr class="dark:border-gray-800" />
-        <div class="flex w-full">
+        <div class="flex w-full gap-4">
           <UnpaidInvoices
             :schema-name="'SalesInvoice'"
             :common-period="period"
             :dark-mode="darkMode"
-            class="border-e dark:border-gray-800"
+            class="
+              bg-white
+              dark:bg-gray-890
+              border
+              dark:border-gray-800
+              rounded-xl
+            "
             @period-change="handlePeriodChange"
           />
           <UnpaidInvoices
             :schema-name="'PurchaseInvoice'"
             :common-period="period"
             :dark-mode="darkMode"
+            class="
+              bg-white
+              dark:bg-gray-890
+              border
+              dark:border-gray-800
+              rounded-xl
+            "
             @period-change="handlePeriodChange"
           />
         </div>
-        <hr class="dark:border-gray-800" />
-        <div class="flex">
+        <div class="flex gap-4">
           <ProfitAndLoss
-            class="w-full p-4 border-e dark:border-gray-800"
+            class="
+              w-full
+              p-4
+              bg-white
+              dark:bg-gray-890
+              border
+              dark:border-gray-800
+              rounded-xl
+            "
             :common-period="period"
             :dark-mode="darkMode"
             @period-change="handlePeriodChange"
           />
           <Expenses
-            class="w-full p-4"
+            class="
+              w-full
+              p-4
+              bg-white
+              dark:bg-gray-890
+              border
+              dark:border-gray-800
+              rounded-xl
+            "
             :common-period="period"
             :dark-mode="darkMode"
             @period-change="handlePeriodChange"
           />
         </div>
-        <hr class="dark:border-gray-800" />
       </div>
     </div>
   </div>

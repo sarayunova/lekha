@@ -2,7 +2,7 @@
   <div class="text-base flex flex-col overflow-hidden">
     <!-- Title Row -->
     <div
-      class="flex items-center"
+      class="flex items-center bg-gray-50 dark:bg-gray-875"
       :style="{
         paddingRight: dataSlice.length > 13 ? 'var(--w-scrollbar)' : '',
       }"
@@ -26,7 +26,14 @@
         />
       </div>
       <Row
-        class="flex-1 text-gray-700 dark:text-gray-400 h-row-mid"
+        class="
+          flex-1
+          text-gray-600
+          dark:text-gray-400
+          h-row-mid
+          text-sm
+          font-medium
+        "
         :column-count="columns.length"
         gap="1rem"
       >
