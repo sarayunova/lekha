@@ -336,7 +336,8 @@ export class TallyImporter {
     let parent = this.getBaseGroup(mapping);
     for (const group of chain) {
       const known = this.groupAccounts.get(group);
-      parent = known ?? (await this.createAccount(group, parent, true, mapping));
+      parent =
+        known ?? (await this.createAccount(group, parent, true, mapping));
       this.groupAccounts.set(group, parent);
     }
 
@@ -653,13 +654,10 @@ export class TallyImporter {
 
   async isDuplicate(referenceNumber: string, date: string) {
     if (!this.existingReferences) {
-      const entries = (await this.fyo.db.getAllRaw(
-        ModelNameEnum.JournalEntry,
-        {
-          fields: ['referenceNumber', 'date'],
-          filters: { cancelled: false },
-        }
-      )) as { referenceNumber: string | null; date: string | Date }[];
+      const entries = (await this.fyo.db.getAllRaw(ModelNameEnum.JournalEntry, {
+        fields: ['referenceNumber', 'date'],
+        filters: { cancelled: false },
+      })) as { referenceNumber: string | null; date: string | Date }[];
 
       this.existingReferences = new Set(
         entries
@@ -703,9 +701,7 @@ export class TallyImporter {
       }
     }
 
-    const lines = [...net.values()].filter(
-      (l) => Math.abs(l.amount) >= 0.005
-    );
+    const lines = [...net.values()].filter((l) => Math.abs(l.amount) >= 0.005);
     const difference = lines.reduce((sum, l) => sum + l.amount, 0);
     if (Math.abs(difference) >= 0.005) {
       throw new Error(

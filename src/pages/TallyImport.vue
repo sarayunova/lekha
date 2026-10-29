@@ -55,7 +55,11 @@
 
         <table class="mt-2 w-80">
           <tbody>
-            <tr v-for="row of summary" :key="row.label" class="border-b dark:border-gray-800">
+            <tr
+              v-for="row of summary"
+              :key="row.label"
+              class="border-b dark:border-gray-800"
+            >
               <td class="py-1">{{ row.label }}</td>
               <td class="py-1 text-end">{{ row.value }}</td>
             </tr>
@@ -83,7 +87,11 @@
         <p class="font-semibold">{{ t`Import Complete` }}</p>
         <table class="w-80">
           <tbody>
-            <tr v-for="row of resultSummary" :key="row.label" class="border-b dark:border-gray-800">
+            <tr
+              v-for="row of resultSummary"
+              :key="row.label"
+              class="border-b dark:border-gray-800"
+            >
               <td class="py-1">{{ row.label }}</td>
               <td class="py-1 text-end">{{ row.value }}</td>
             </tr>

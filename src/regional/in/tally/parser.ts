@@ -83,19 +83,21 @@ export function decodeTallyFile(data: Uint8Array): string {
  * Tally writes control characters (e.g. `&#4;`) that are not allowed in XML.
  */
 function sanitize(xml: string): string {
-  return xml
-    .replace(/&#(x[0-9a-f]+|[0-9]+);/gi, (match, code: string) => {
-      const value =
-        code[0].toLowerCase() === 'x'
-          ? parseInt(code.slice(1), 16)
-          : parseInt(code, 10);
-      if (value < 0x20 && value !== 0x9 && value !== 0xa && value !== 0xd) {
-        return '';
-      }
-      return match;
-    })
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '');
+  return (
+    xml
+      .replace(/&#(x[0-9a-f]+|[0-9]+);/gi, (match, code: string) => {
+        const value =
+          code[0].toLowerCase() === 'x'
+            ? parseInt(code.slice(1), 16)
+            : parseInt(code, 10);
+        if (value < 0x20 && value !== 0x9 && value !== 0xa && value !== 0xd) {
+          return '';
+        }
+        return match;
+      })
+      // eslint-disable-next-line no-control-regex
+      .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '')
+  );
 }
 
 function children(el: Element, tag: string): Element[] {
@@ -205,7 +207,9 @@ function parseLedger(el: Element): TallyLedger {
 
 function parseStockItem(el: Element): TallyStockItem {
   let gstRate: number | undefined;
-  for (const rateEl of Array.from(el.getElementsByTagName('RATEDETAILS.LIST'))) {
+  for (const rateEl of Array.from(
+    el.getElementsByTagName('RATEDETAILS.LIST')
+  )) {
     const head = text(rateEl, 'GSTRATEDUTYHEAD');
     const rate = text(rateEl, 'GSTRATE');
     if (head === 'Integrated Tax' && rate) {
