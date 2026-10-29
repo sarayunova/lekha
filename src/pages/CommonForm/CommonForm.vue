@@ -103,7 +103,9 @@
               ? 'border-t dark:border-gray-800'
               : ''
           "
-          :show-title="activeGroup.size > 1 && n !== 'Default' && n !== t`Default`"
+          :show-title="
+            activeGroup.size > 1 && n !== 'Default' && n !== t`Default`
+          "
           :title="n"
           :fields="fields"
           :doc="doc"

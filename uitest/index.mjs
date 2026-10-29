@@ -12,10 +12,24 @@ const appSourcePath = path.join(root, 'dist_electron', 'build', 'main.js');
   const window = await electronApp.firstWindow();
   window.setDefaultTimeout(60_000);
 
-  test('load app', async (t) => {
-    t.equal(await window.title(), 'Frappe Books', 'title matches');
+  // The window can still be navigating right after launch, which makes
+  // page.title() throw "Execution context was destroyed", so retry briefly.
+  const getTitle = async () => {
+    for (let i = 0; i < 5; i++) {
+      try {
+        return await window.title();
+      } catch {
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    }
+    return await window.title();
+  };
 
-    await new Promise((r) => window.once('load', () => r()));
+  test('load app', async (t) => {
+    t.equal(await getTitle(), 'Lekha', 'title matches');
+
+    // resolves immediately if the page has already loaded
+    await window.waitForLoadState('load');
     t.ok(true, 'window has loaded');
   });
 

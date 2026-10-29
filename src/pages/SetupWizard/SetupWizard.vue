@@ -33,7 +33,9 @@
               ? 'border-t dark:border-gray-800'
               : ''
           "
-          :show-title="activeGroup.size > 1 && name !== 'Default' && name !== t`Default`"
+          :show-title="
+            activeGroup.size > 1 && name !== 'Default' && name !== t`Default`
+          "
           :title="name"
           :fields="fields"
           :doc="doc"

@@ -147,10 +147,10 @@ async function getBalance(account: string, party?: string) {
     filters.party = party;
   }
 
-  const entries = (await fyo.db.getAllRaw(
-    ModelNameEnum.AccountingLedgerEntry,
-    { fields: ['debit', 'credit'], filters }
-  )) as { debit: string; credit: string }[];
+  const entries = (await fyo.db.getAllRaw(ModelNameEnum.AccountingLedgerEntry, {
+    fields: ['debit', 'credit'],
+    filters,
+  })) as { debit: string; credit: string }[];
 
   return entries.reduce(
     (sum, e) => sum + Number(e.debit) - Number(e.credit),

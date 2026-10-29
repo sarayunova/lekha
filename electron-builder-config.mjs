@@ -12,6 +12,8 @@ const frappeBooksConfig = {
   productName: 'Lekha',
   appId: 'com.liviverse.lekha',
   artifactName: '${productName}-v${version}-${os}-${arch}.${ext}',
+  // better-sqlite3 ships prebuilt binaries, so skip rebuilding from source
+  npmRebuild: false,
   asarUnpack: '**/*.node',
   extraResources: [
     { from: 'translations', to: '../translations' },
