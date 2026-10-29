@@ -41,17 +41,20 @@
       <div v-for="group in groups" :key="group.label">
         <div
           class="
-            px-4
+            mx-2
+            mb-0.5
+            px-3
+            rounded-lg
             flex
             items-center
             cursor-pointer
             hover:bg-gray-100
-            dark:hover:bg-gray-875
+            dark:hover:bg-gray-850
             h-10
           "
           :class="
             isGroupActive(group) && !group.items
-              ? 'bg-gray-100 dark:bg-gray-875 border-s-4 border-gray-800 dark:border-gray-100'
+              ? 'bg-blue-50 dark:bg-gray-850'
               : ''
           "
           @click="routeToSidebarItem(group)"
@@ -63,13 +66,12 @@
             :height="group.iconHeight ?? 0"
             :active="!!isGroupActive(group)"
             :darkMode="darkMode"
-            :class="isGroupActive(group) && !group.items ? '-ms-1' : ''"
           />
           <div
             class="ms-2 text-lg text-gray-700"
             :class="
               isGroupActive(group) && !group.items
-                ? 'text-gray-900 dark:text-gray-25'
+                ? 'text-blue-700 font-medium dark:text-blue-300'
                 : 'dark:text-gray-300'
             "
           >
@@ -84,22 +86,25 @@
             :key="item.label"
             class="
               text-base
-              h-10
+              h-9
+              mx-2
+              mb-0.5
               ps-10
+              rounded-lg
               cursor-pointer
               flex
               items-center
               hover:bg-gray-100
-              dark:hover:bg-gray-875
+              dark:hover:bg-gray-850
             "
             :class="
               isItemActive(item)
-                ? 'bg-gray-100 dark:bg-gray-875 text-gray-900 dark:text-gray-100 border-s-4 border-gray-800 dark:border-gray-100'
+                ? 'bg-blue-50 dark:bg-gray-850 text-blue-700 font-medium dark:text-blue-300'
                 : 'text-gray-700 dark:text-gray-400'
             "
             @click="routeToSidebarItem(item)"
           >
-            <p :style="isItemActive(item) ? 'margin-left: -4px' : ''">
+            <p>
               {{ item.label }}
             </p>
           </div>
