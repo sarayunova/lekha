@@ -18,11 +18,14 @@
           @mouseover="active = i"
           @mouseleave="active = null"
         >
-          <div class="w-3 h-3 rounded-sm flex-shrink-0" :class="d.class" />
-          <p class="ms-2 overflow-x-auto whitespace-nowrap no-scrollbar w-36">
+          <div
+            class="w-3 h-3 rounded-sm flex-shrink-0"
+            :class="darkMode ? d.class.darkClass : d.class.class"
+          />
+          <p class="ms-2 flex-1 min-w-0 truncate" :title="d.account">
             {{ d.account }}
           </p>
-          <p class="whitespace-nowrap flex-shrink-0 ms-auto">
+          <p class="whitespace-nowrap flex-shrink-0 ms-4">
             {{ fyo.format(d?.total ?? 0, 'Currency') }}
           </p>
         </div>
