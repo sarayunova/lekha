@@ -35,25 +35,20 @@
           font-medium
         "
         :column-count="columns.length"
+        column-width="minmax(0, 1fr)"
         gap="1rem"
       >
         <div
           v-for="(column, i) in columns"
           :key="column.label"
-          class="
-            overflow-x-auto
-            no-scrollbar
-            whitespace-nowrap
-            h-row
-            items-center
-            flex
-          "
+          class="overflow-hidden whitespace-nowrap h-row items-center flex"
+          :title="column.label"
           :class="{
-            'ms-auto': isNumeric(column.fieldtype),
+            'justify-end': isNumeric(column.fieldtype),
             'pe-4': i === columns.length - 1,
           }"
         >
-          {{ column.label }}
+          <span class="truncate">{{ column.label }}</span>
         </div>
       </Row>
     </div>
@@ -100,6 +95,7 @@
               h-row-mid
             "
             :column-count="columns.length"
+            column-width="minmax(0, 1fr)"
             @click="isSelectionMode ? null : $emit('openDoc', row.name)"
           >
             <ListCell

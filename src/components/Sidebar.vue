@@ -104,7 +104,7 @@
             "
             @click="routeToSidebarItem(item)"
           >
-            <p>
+            <p class="min-w-0 pe-2 truncate" :title="item.label">
               {{ item.label }}
             </p>
           </div>

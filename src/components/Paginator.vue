@@ -76,7 +76,8 @@
     >
       <template v-for="c in filteredCounts" :key="c + '-count'">
         <button
-          class="w-9"
+          class="px-2"
+          style="min-width: 2.25rem"
           :class="
             count === c || (count === itemCount && c === -1)
               ? 'rounded bg-gray-100 dark:bg-gray-890'
