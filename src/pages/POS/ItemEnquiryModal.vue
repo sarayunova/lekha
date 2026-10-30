@@ -75,7 +75,7 @@
       <div class="grid grid-cols-2 gap-4 mt-10 mb-4">
         <div class="col-span-2">
           <Button
-            class="w-full bg-green-500 dark:bg-green-700"
+            class="w-full bg-green-600 dark:bg-green-700"
             style="padding: 1.35rem"
             @click="submitForm"
           >
@@ -91,7 +91,7 @@
       <div class="grid grid-cols-2 gap-4 mb-6">
         <div class="col-span-2">
           <Button
-            class="w-full bg-red-500 dark:bg-red-700"
+            class="w-full bg-red-600 dark:bg-red-700"
             style="padding: 1.35rem"
             @click="closeModal"
           >
