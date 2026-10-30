@@ -9,7 +9,7 @@
     <div class="row-start-6 grid grid-cols-2 gap-4 mt-auto pb-6">
       <div class="flex col-span-2 gap-5">
         <Button
-          class="py-5 w-full bg-red-500 dark:bg-red-700"
+          class="py-5 w-full bg-red-600 dark:bg-red-700"
           @click="$emit('toggleModal', 'Alert')"
         >
           <slot>
@@ -20,7 +20,7 @@
         </Button>
 
         <Button
-          class="w-full py-5 bg-green-500 dark:bg-green-700"
+          class="w-full py-5 bg-green-600 dark:bg-green-700"
           @click="
             routeTo('/list/SalesInvoice');
             $emit('toggleModal', 'Alert');

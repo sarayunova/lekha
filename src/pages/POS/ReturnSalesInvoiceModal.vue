@@ -93,7 +93,7 @@
     <div class="row-start-6 grid grid-cols-2 gap-4 mt-1">
       <div class="col-span-2">
         <Button
-          class="w-full p-5 bg-red-500 dark:bg-red-700"
+          class="w-full p-5 bg-red-600 dark:bg-red-700"
           @click="$emit('toggleModal', 'SavedInvoice')"
         >
           <slot>

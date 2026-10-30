@@ -3,7 +3,7 @@
     <PageHeader :title="t`Point of Sale`">
       <slot>
         <Button
-          class="bg-red-500 dark:bg-red-700"
+          class="bg-red-600 dark:bg-red-700"
           @click="toggleModal('ShiftClose')"
         >
           <span class="font-medium text-white">{{ t`Close POS Shift ` }}</span>
