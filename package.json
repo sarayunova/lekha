@@ -3,7 +3,8 @@
   "version": "1.2.0",
   "description": "Free accounting software for Indian small and medium businesses",
   "author": {
-    "name": "Lekha"
+    "name": "Lekha",
+    "email": "sarayunova@gmail.com"
   },
   "scripts": {
     "dev": "node build/scripts/dev.mjs",
