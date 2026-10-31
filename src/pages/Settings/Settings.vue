@@ -20,6 +20,20 @@
       >
       </FormHeader>
 
+      <!-- Language (app-wide, not part of the company settings) -->
+      <div
+        v-if="activeTab === systemSettingsTab"
+        class="p-4 border-b dark:border-gray-800"
+      >
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          {{ t`Language` }}
+        </p>
+        <LanguageSelector class="w-48" />
+        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+          {{ t`Set the display language.` }}
+        </p>
+      </div>
+
       <!-- Section Container -->
       <div v-if="doc" class="overflow-auto custom-scroll custom-scroll-thumb1">
         <CommonFormSection
@@ -88,6 +102,7 @@ import { ValidationError } from 'fyo/utils/errors';
 import { ModelNameEnum } from 'models/types';
 import { Field, Schema } from 'schemas/types';
 import Button from 'src/components/Button.vue';
+import LanguageSelector from 'src/components/Controls/LanguageSelector.vue';
 import FormContainer from 'src/components/FormContainer.vue';
 import FormHeader from 'src/components/FormHeader.vue';
 import { handleErrorWithDialog } from 'src/errorHandling';
@@ -104,7 +119,13 @@ import CommonFormSection from '../CommonForm/CommonFormSection.vue';
 const COMPONENT_NAME = 'Settings';
 
 export default defineComponent({
-  components: { FormContainer, Button, FormHeader, CommonFormSection },
+  components: {
+    FormContainer,
+    Button,
+    FormHeader,
+    CommonFormSection,
+    LanguageSelector,
+  },
   provide() {
     return { doc: computed(() => this.doc) };
   },
@@ -125,6 +146,9 @@ export default defineComponent({
     };
   },
   computed: {
+    systemSettingsTab(): string {
+      return ModelNameEnum.SystemSettings;
+    },
     canSave() {
       return [
         ModelNameEnum.AccountingSettings,

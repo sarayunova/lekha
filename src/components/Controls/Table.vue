@@ -23,16 +23,17 @@
         <div
           v-for="df in tableFields"
           :key="df.fieldname"
-          class="flex px-2 h-row-mid"
+          class="flex px-2 h-row-mid min-w-0"
           :class="[
             df.sub_label
               ? 'flex-col items-center text-center'
               : isNumeric(df)
-              ? 'ms-auto items-center'
+              ? 'justify-end items-center'
               : 'items-center',
           ]"
+          :title="df.label"
         >
-          <span>{{ df.label }}</span>
+          <span class="truncate">{{ df.label }}</span>
           <p v-if="df.sub_label" class="text-xs">
             {{ df.sub_label }}
           </p>
@@ -146,7 +147,17 @@ export default {
       return this.df.edit;
     },
     ratio() {
-      const ratio = [0.3].concat(this.tableFields.map(() => 1));
+      // The first field is the primary one (item, account, ...) and text
+      // fields hold longer values than numbers, so they get more room.
+      const ratio = [0.3].concat(
+        this.tableFields.map((df, i) => {
+          if (i === 0) {
+            return 2;
+          }
+
+          return this.isNumeric(df) ? 1 : 1.4;
+        })
+      );
 
       if (this.canEditRow) {
         return ratio.concat(0.3);
