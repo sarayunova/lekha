@@ -182,3 +182,25 @@ jobs:
         with:
           name: dist-windows
           path: dist-windows.tar
+
+  version-free-assets:
+    needs: [build-macos, build-macos-arm, build-linux, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Books
+        uses: actions/checkout@v4
+
+      - name: Upload version-free Windows copies
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # vyapartools.in links to releases/latest/download/<name>, so every
+          # release needs the Windows files under version-free names.
+          v=$(node -p "require('./package.json').version")
+          for kind in Setup Portable; do
+            gh release download "v$v" --repo "$GITHUB_REPOSITORY" \
+              -p "Lekha-$kind-v$v-windows-x64.exe"
+            cp "Lekha-$kind-v$v-windows-x64.exe" "Lekha-$kind-windows-x64.exe"
+          done
+          gh release upload "v$v" --repo "$GITHUB_REPOSITORY" --clobber \
+            Lekha-Setup-windows-x64.exe Lekha-Portable-windows-x64.exe
